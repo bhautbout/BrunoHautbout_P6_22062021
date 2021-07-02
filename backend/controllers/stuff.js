@@ -12,11 +12,16 @@ exports.createThing = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 };
 
-  exports.modifyThing = (req, res, next) => {
-    Thing.updateOne({ _id: req.params.id }, {...req.body, _id: req.params.id})
+exports.modifyThing = (req, res, next) => {
+  const thingObject = req.file ?
+    {
+      ...JSON.parse(req.body.thing),
+      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : { ...req.body };
+  Thing.updateOne({ _id: req.params.id }, { ...thingObject, _id: req.params.id })
     .then(() => res.status(200).json({ message: 'Objet modifié !'}))
-    .catch(error => res.status(400).json({ error}));
-  };
+    .catch(error => res.status(400).json({ error }));
+};
 
   exports.deleteThing = (req, res, next) => {
     Thing.deleteOne({ _id: req.params.id})
