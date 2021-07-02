@@ -1,13 +1,16 @@
 const Thing = require('../models/Things');
 
 exports.createThing = (req, res, next) => {
-    const thing = new Thing({
-      ...req.body
-    });
-    thing.save()
-      .then(() => res.status(201).json ({ message: 'Objet enregistré !'}))
-      .catch(error => res.status(400).json({ error }));
-  };
+  const thingObject = JSON.parse(req.body.thing);
+  delete thingObject._id;
+  const thing = new Thing({
+    ...thingObject,
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+  });
+  thing.save()
+    .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
+    .catch(error => res.status(400).json({ error }));
+};
 
   exports.modifyThing = (req, res, next) => {
     Thing.updateOne({ _id: req.params.id }, {...req.body, _id: req.params.id})
