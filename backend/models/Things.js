@@ -10,8 +10,8 @@ const thingSchema = mongoose.Schema({
     heat: {type: Number, min:1, max: 10, required: true},
     likes: {type: Number, required: true},
     dislikes: {type: Number, required: true},
-    // usersLiked: [string],
-    // usersDisliked: [string],
+    usersLiked: {type: Array},
+    usersDisliked: {type: Array},
 });
 
 module.exports = mongoose.model('Things', thingSchema);
