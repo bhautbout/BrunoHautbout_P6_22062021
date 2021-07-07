@@ -1,9 +1,9 @@
 const express = require('express');
-//const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
+const mongoSanitize = require('express-mongo-sanitize');
 
 mongoose.connect('mongodb+srv://bhautbout:IeGHfQW0y37qk3d0@projet6.ornc8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   { useNewUrlParser: true,
@@ -21,6 +21,7 @@ app.use((req, res, next) => {
   });
 
 app.use(express.json());
+app.use(mongoSanitize({replaceWith: '_',}),);
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
