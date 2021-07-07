@@ -1,6 +1,7 @@
 const Sauce = require('../models/Sauce');
 const fs = require('fs');
 
+//Créé la sauce//
 exports.createSauce = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
@@ -17,18 +18,21 @@ exports.createSauce = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 };
 
+// Affiche toutes les sauces de la BDD//
 exports.getAllSauce = (req, res, next) => {
   Sauce.find()
   .then(sauces => res.status(200).json(sauces))
   .catch(error => res.status(400).json({ error }));
 };
 
+//Affiche la sauce sélectionnée//
 exports.getOneSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then(sauce => res.status(200).json(sauce))
     .catch(error => res.status(404).json({ error }));
 };
 
+//Modifie la sauce sélectionnée//
 exports.modifySauce = (req, res, next) => {
   const sauceObject = req.file ?
     {
@@ -40,6 +44,7 @@ exports.modifySauce = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 };
 
+//Supprime la sauce sélectionnée//
 exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then(sauce => {
@@ -58,7 +63,7 @@ exports.likeSauce = (req, res, next) => {
   let likes = req.body.like;
   let userId = req.body.userId;
   delete sauceObject._id;
-
+//si l'utilisateur aime la sauce alors like = 1//
   if (likes === 1) {
     Sauce.updateOne(
       { _id: req.params.id },
@@ -69,7 +74,8 @@ exports.likeSauce = (req, res, next) => {
     )
     .then(() => res.status(200).json( {message: "Vous adorez cette sauce !"}))
     .catch((error) => res.status(400).json({error}));
-
+    
+// si l'utilisateur n'aime pas la sauce alors like = -1//
   } else if (likes === -1) {
     Sauce.updateOne(
       {_id: req.params.id},
