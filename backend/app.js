@@ -6,7 +6,7 @@ const userRoutes = require('./routes/user');
 const mongoSanitize = require('express-mongo-sanitize');
 
 //connection à la base de données MongoDb//
-mongoose.connect('mongodb+srv://bhautbout:IeGHfQW0y37qk3d0@projet6.ornc8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://test:test@projet6.ornc8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
